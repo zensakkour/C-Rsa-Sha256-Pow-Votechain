@@ -1,5 +1,5 @@
 #include "test/test.h"
-#include "test/clocktime.H"
+#include "test/clocktime.h"
 #include "lib/blockchain.h"
 
 #include <stdlib.h>
@@ -12,8 +12,8 @@ void blockchain_performance_tests(){
     int d;
     for(d=1; d<BLOCK_HASH_SIZE/2; d++){
         bool quitnow = false;
-        double secs_avg;
-        int i;
+        double secs_avg = 0.0;
+        size_t i;
         for(i=0; i<N; i++){
             srand(time(NULL));
             Key pk, sk;
@@ -37,7 +37,7 @@ void blockchain_performance_tests(){
             free_block(b);
         }
         secs_avg /= i;
-        printf("    %d \n", i);
+        printf("    %zu \n", i);
         printf("%d %f \n", d, secs_avg);
 
         if(quitnow) break;

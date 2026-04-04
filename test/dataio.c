@@ -61,7 +61,7 @@ int main(){
         good = good && (it1->data->pKey->v == it2->data->pKey->v);
         good = good && (it1->data->sig->len == it2->data->sig->len);
         if(!good) break;
-        size_t i;
+        int i;
         for(i=0; i<it1->data->sig->len; i++)
             good = good && (it1->data->sig->xs[i] == it2->data->sig->xs[i]);
         it1 = it1->next;

@@ -32,7 +32,7 @@ int main(){
                 k.v = rand_int64(0, 42424269);
 
                 uint32 x = hash_function(&k, size);
-                TEST_MSG(x >= 0 && x < size, true, "x is not contained in the proper range");
+                TEST_MSG(x < size, true, "x is not contained in the proper range");
             }
         }
 

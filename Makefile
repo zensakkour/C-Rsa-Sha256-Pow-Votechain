@@ -1,43 +1,43 @@
-CC=gcc
-export CC
-VALGRIND=0
-DEBUG=$(VALGRIND)
-export DEBUG
-export VALGRIND
-EXTERNAL_LIBS=-lssl -lcrypto
+CC ?= gcc
+AR ?= ar
+
+VALGRIND ?= 0
+PERFORMANCETESTS ?= 0
+
+export CC AR VALGRIND PERFORMANCETESTS
+
+EXTERNAL_LIBS ?= -lssl -lcrypto
 export EXTERNAL_LIBS
 
-# find current Makefiles directory i.e project root
-ROOT_MAKEFILE=$(abspath $(lastword $(MAKEFILE_LIST)))
+ROOT_MAKEFILE := $(abspath $(lastword $(MAKEFILE_LIST)))
 D_ROOT := $(patsubst %/,%,$(dir $(ROOT_MAKEFILE)))
-export D_ROOT
+D_LIB := $(D_ROOT)/lib
+D_TEST := $(D_ROOT)/test
 
-# add the root as include directory
-C_INCLUDE_PATH=$(D_ROOT)
-export C_INCLUDE_PATH
+SUBDIRS := $(D_LIB) $(D_TEST)
 
-D_LIB=$(D_ROOT)/lib
-D_TEST=$(D_ROOT)/test
-SUBDIRS = $(D_LIB) $(D_TEST)
-export D_LIB D_TEST
+.PHONY: all clean lib test-bin test help
 
-export PERFORMANCETESTS
+all: lib test-bin
 
-ifneq ($(words $(D_ROOT)),1)
-$(error Seems like your path "$(D_ROOT)" has spaces in it! Compilation cannot continue! )
-endif
+lib:
+	$(MAKE) -C $(D_LIB)
 
-all:
-	for sdir in $(SUBDIRS); do \
-		$(MAKE) -C $$sdir; \
-	done
+test-bin:
+	$(MAKE) -C $(D_TEST)
+
+test: all
+	$(MAKE) -C $(D_TEST) run
 
 clean:
-	for sdir in $(SUBDIRS); do \
-		$(MAKE) -C $$sdir clean; \
-	done
+	$(MAKE) -C $(D_LIB) clean
+	$(MAKE) -C $(D_TEST) clean
 
-test:: all
-	$(MAKE) -C ./test alltests
-
-
+help:
+	@echo "Targets:"
+	@echo "  make           Build library and test binaries"
+	@echo "  make test      Build and run all tests"
+	@echo "  make clean     Remove build artifacts"
+	@echo "Variables:"
+	@echo "  VALGRIND=1         Run tests under valgrind"
+	@echo "  PERFORMANCETESTS=1 Enable performance tests in perf.c"
