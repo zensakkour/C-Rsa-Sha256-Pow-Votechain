@@ -1,4 +1,4 @@
-# c-rsa-sha256-pow-votechain
+# C-Rsa-Sha256-Pow-Votechain
 
 A C-based educational blockchain voting engine that combines:
 - RSA key generation and message signing
