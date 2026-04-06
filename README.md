@@ -104,9 +104,3 @@ Important simplifications:
 - no Byzantine fault-tolerant finality
 - PoW cost/difficulty model is intentionally simplified
 
-## Professionalization Changes Included
-- Standardized project layout (`lib/`, `test/`, `docs/`, `data/`)
-- Reworked Makefiles for reliable local builds/tests
-- Cross-platform portability fixes (Windows + Unix behavior)
-- Cleaner `.gitignore` and tracked runtime directory placeholders
-- Detailed technical README and clearer project positioning
